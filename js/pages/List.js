@@ -56,7 +56,7 @@ export default {
                         </li>
                     </ul>
                     <h2>Records</h2>
-                    <p v-if="selected + 1 <= 150"><strong>100% (Ukończenie)</strong> lub lepszy czas, aby trafić na listę</p>
+                    <p v-if="selected + 1 <= 150"><strong>100% (Ukończenie)</strong> aby trafić na listę. Niższy czas = wyższe miejsce.</p>
                     <p v-else>Ten poziom nie przyjmuje już nowych rekordów.</p>
                     <table class="records">
                         <tr v-for="record in level.records" class="record">
@@ -84,11 +84,8 @@ export default {
                     <div class="errors" v-show="errors.length > 0">
                         <p class="error" v-for="error of errors">{{ error }}</p>
                     </div>
-                    <div class="og">
-                        <p class="type-label-md">Website layout made by <a href="https://tsl.pages.dev/" target="_blank">TheShittyList</a></p>
-                    </div>
                     <template v-if="editors">
-                        <h3>List Editors</h3>
+                        <h3>Edytorzy listy:</h3>
                         <ol class="editors">
                             <li v-for="editor in editors">
                                 <img :src="\`/assets/\${roleIconMap[editor.role]}\${store.dark ? '-dark' : ''}.svg\`" :alt="editor.role">
@@ -97,30 +94,30 @@ export default {
                             </li>
                         </ol>
                     </template>
-                    <h3>Submission Requirements</h3>
+                    <h3>Wymagania rekordów</h3>
                     <p>
-                        Achieved the record without using hacks (however, FPS bypass is allowed, up to 360fps)
+                        Przejdź level bez hacków (dozwolony jest FPS bypass, maxymalnie 360 fps).
                     </p>
                     <p>
-                        Achieved the record on the level that is listed on the site - please check the level ID before you submit a record
+                        Rekord ukończony na levelu podanym z listy - upewnij się, że ID się zgadza.
                     </p>
                     <p>
-                        Have either source audio or clicks/taps in the video. Edited audio only does not count
+                        Upewnij się, że słychać kliknięcia w twoim przejściu levela.
                     </p>
                     <p>
-                        The recording must have a previous attempt and entire death animation shown before the completion, unless the completion is on the first attempt. Everyplay records are exempt from this
+                        Nagranie musi pokazywać również poprzedni attempt, w tym jego śmierć (nie musi być pełny), chyba że poziom został ukończony w 1 attempt.
                     </p>
                     <p>
-                        The recording must also show the player hit the endwall, or the completion will be invalidated.
+                        Nagranie musi pokazywać endscreen.
                     </p>
                     <p>
-                        Do not use secret routes or bug routes
+                        Nie używaj dużych pominięć, secret route'ów lub bug route'ów. Dozwolone są małe skipy, co mało wpływają na ukończenie poziomu.
                     </p>
                     <p>
-                        Do not use easy modes, only a record of the unmodified level qualifies
+                        Nie używaj trybów ułatwiających. Graj tylko na oryginalnym poziomie.
                     </p>
                     <p>
-                        Once a level falls onto the Legacy List, we accept records for it for 24 hours after it falls off, then afterwards we never accept records for said level
+                        Kiedy poziom spadnie na legacy listę, jest timer 24 godzin, w którym nadal akceptujemy rekordy. Po upływie 24 godzin, nie akceptujemy rekordów na dany poziom.
                     </p>
                 </div>
             </div>
@@ -159,18 +156,18 @@ export default {
         // Error handling
         if (!this.list) {
             this.errors = [
-                "Failed to load list. Retry in a few minutes or notify list staff.",
+                "X_X Błąd w wczytywaniu listy. Odśwież stronę za kilka minut, lub skontaktuj się z administratorami GDPS.",
             ];
         } else {
             this.errors.push(
                 ...this.list
                     .filter(([_, err]) => err)
                     .map(([_, err]) => {
-                        return `Failed to load level. (${err}.json)`;
+                        return `Nie udało się wczytać poziomu. (${err}.json)`;
                     })
             );
             if (!this.editors) {
-                this.errors.push("Failed to load list editors.");
+                this.errors.push("Nie udało się wczytać edytorów listy.");
             }
         }
 
